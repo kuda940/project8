@@ -1,0 +1,276 @@
+SELECT * FROM amazon.amazon_2025;
+
+-- aggregate funcutions of the price, quantity and total sales--
+
+SELECT min(Price),
+       avg(Price),
+       max(Price)
+FROM amazon.amazon_2025;
+
+SELECT min(Quantity),
+       avg(Quantity),
+       max(Quantity)
+From amazon.amazon_2025;
+
+SELECT min(Total_sales),
+       avg(Total_sales),
+       max(Total_sales)
+FROM amazon.amazon_2025;
+
+-- DATA MANIPULATION by adding the day, the weeks, years, and months --- 
+-- Dayname --
+SELECT Quantity, Date,  dayname(Date) As Days_the_week
+ FROM amazon.amazon_2025;
+ 
+ SELECT Total_Sales, Date,  dayname(Date) As Days_the_week
+ FROM amazon.amazon_2025;
+ -- monthname --
+SELECT Total_Sales,  Date,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months
+ FROM amazon.amazon_2025;
+ 
+ -- month name and quantity --
+ 
+ SELECT Quantity,  Date,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months
+ FROM amazon.amazon_2025;
+ -- status --
+ SELECT Quantity,  Status,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months
+ FROM amazon.amazon_2025;
+ -- status and total sales--
+ SELECT Total_Sales,  Status,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months
+ FROM amazon.amazon_2025;
+ 
+ --- total sales and customer location --
+ SELECT Total_Sales,  Customer_Location,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months
+ FROM amazon.amazon_2025;
+ 
+ 
+SELECT Total_Sales,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months,
+        weekofyear(Date)As weeks
+ FROM amazon.amazon_2025;
+ 
+ SELECT Date,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months,
+        weekofyear(Date)As weeks,
+        year(Date) AS Years
+ FROM amazon.amazon_2025;
+ 
+ 
+  SELECT Total_Sales,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months,
+        weekofyear(Date)As weeks,
+        year(Date) AS Years,
+        quarter(date) As Quarters
+ FROM amazon.amazon_2025;
+ 
+ -- total sales and quantity by customer location--
+ SELECT Total_Sales, quantity, Customer_Location
+ FROM amazon.amazon_2025;
+ 
+ -- by years --
+ SELECT Total_Sales, quantity, Customer_Location,
+ quarter(Date) As Year_Quaters, year(Date)As Year_of_sale
+ FROM amazon.amazon_2025;
+ 
+  SELECT Date,  dayname(Date) As Days_the_week, 
+		monthname(Date) As Months,
+        weekofyear(Date)As weeks,
+        year(Date) AS Years,
+        quarter(date) As Quarters
+ FROM amazon.amazon_2025;
+ 
+ -- by city and town --
+ SELECT * FROM amazon.amazon_2025;
+ 
+ -- quater and city--
+ SELECT quarter(Date), Customer location, Total_sales
+ FROM 	amazon.amazon_2025;
+ 
+ SELECT Quantity, Total_Sales,
+    CASE
+        WHEN DAYOFWEEK(date) IN (1, 7) THEN 'Weekend'
+        ELSE 'Weekday'
+    END AS day_type
+    
+FROM amazon.amazon_2025;
+
+SELECT Quantity, Total_Sales, Customer_Location,
+    CASE
+        WHEN DAYOFWEEK(date) IN (1, 7) THEN 'Weekend'
+        ELSE 'Weekday'
+    END AS day_type
+    
+FROM amazon.amazon_2025;
+
+-- Category --
+
+SELECT Category, Total_Sales, Customer_Location,
+    CASE
+        WHEN DAYOFWEEK(date) IN (1, 7) THEN 'Weekend'
+        ELSE 'Weekday'
+    END AS day_type
+    
+FROM amazon.amazon_2025;
+
+SELECT Quantity, Total_Sales, Customer_Location,
+    CASE
+        WHEN DAYOFWEEK(date) IN (1, 7) THEN 'Weekend'
+        ELSE 'Weekday'
+    END AS day_type
+    
+FROM amazon.amazon_2025;
+
+-- YEAR --
+
+
+SELECT Quantity, Total_Sales, Customer_Location, year(Date) As year_of_sale,
+    CASE
+        WHEN DAYOFWEEK(date) IN (1, 7) THEN 'Weekend'
+        ELSE 'Weekday'
+    END AS day_type
+    
+FROM amazon.amazon_2025;
+
+-- by year--
+SELECT
+    YEAR(date) AS order_year,
+    customer_location,
+    SUM(total_sales) AS total_sales,
+    SUM(quantity) AS total_quantity
+FROM amazon.amazon_2025
+GROUP BY
+    YEAR(date),
+    customer_location
+ORDER BY order_year;
+
+-- by month only --
+SELECT
+    YEAR(date) AS order_year,
+    MONTH(date) AS order_month,
+    SUM(total_sales) AS total_sales,
+    SUM(quantity) AS total_quantity
+FROM amazon.amazon_2025
+GROUP BY
+    YEAR(date),
+    MONTH(date)
+ORDER BY order_year, order_month;
+--- Quantity --
+SELECT
+    date, category, quantity,
+    CASE
+        WHEN DAY(Date) BETWEEN 1 AND 11 THEN 'Early'
+        WHEN DAY(Date) BETWEEN 12 AND 23 THEN 'Mid Month'
+        ELSE 'Month End'
+    END AS month_period
+FROM amazon.amazon_2025;
+-- Total_sales --
+SELECT
+    date, category, Total_Sales,
+    CASE
+        WHEN DAY(Date) BETWEEN 1 AND 11 THEN 'Early'
+        WHEN DAY(Date) BETWEEN 12 AND 23 THEN 'Mid Month'
+        ELSE 'Month End'
+    END AS month_period
+FROM amazon.amazon_2025;
+
+-- Product --
+SELECT
+    date, Product, quantity,
+    CASE
+        WHEN DAY(Date) BETWEEN 1 AND 11 THEN 'Early'
+        WHEN DAY(Date) BETWEEN 12 AND 23 THEN 'Mid Month'
+        ELSE 'Month End'
+    END AS month_period
+FROM amazon.amazon_2025;
+
+-- product and total sales --
+SELECT
+    date, product, Total_Sales,
+    CASE
+        WHEN DAY(Date) BETWEEN 1 AND 11 THEN 'Early'
+        WHEN DAY(Date) BETWEEN 12 AND 23 THEN 'Mid Month'
+        ELSE 'Month End'
+    END AS month_period
+FROM amazon.amazon_2025;
+SELECT
+    YEAR(order_date) AS order_year,
+    MONTH(order_date) AS order_month,
+    CASE
+        WHEN DAY(order_date) BETWEEN 1 AND 11 THEN 'Early'
+        WHEN DAY(order_date) BETWEEN 12 AND 23 THEN 'Mid Month'
+        ELSE 'Month End'
+    END AS month_period,
+    SUM(total_sales) AS total_sales,
+    SUM(quantity) AS total_quantity
+FROM amazon.amazon_2025
+GROUP BY
+    YEAR(order_date),
+    MONTH(order_date),
+    CASE
+        WHEN DAY(order_date) BETWEEN 1 AND 11 THEN 'Early'
+        WHEN DAY(order_date) BETWEEN 12 AND 23 THEN 'Mid Month'
+        ELSE 'Month End'
+    END
+ORDER BY
+    order_year, order_month, month_period;
+    -- unique customer and total sales--
+ SELECT distinct(Customer_Name),
+        sum(Total_Sales)
+  From amazon.amazon_2025
+  group by Customer_Name;
+  
+  select *, 
+  Dayname(Date) As Days_of_the_week,
+  Monthname(Date) As Months,
+  year(Date) As Years,
+  weekofyear(Date) As weeks,
+  quarter(Date) As Quarterly,
+     
+  
+    CASE
+        WHEN DAY(date) BETWEEN 1 AND 11 THEN 'Early'
+        WHEN DAY(date) BETWEEN 12 AND 23 THEN 'Mid Month'
+        ELSE 'Month End'
+    END AS month_period,
+   CASE
+        WHEN quantity BETWEEN 1 AND 5 THEN 'Low Quantity'
+        WHEN quantity BETWEEN 6 AND 15 THEN 'Medium Quantity'
+        ELSE 'High Quantity'
+    END AS quantity_category,
+ CASE
+        WHEN total_sales < 100 THEN 'Low Sales'
+        WHEN total_sales BETWEEN 100 AND 500 THEN 'Medium Sales'
+        ELSE 'High Sales'
+    END AS sales_category,
+    CASE
+        WHEN DAYOFWEEK(date) IN (1, 7) THEN 'Weekend'
+        ELSE 'Weekday'
+    END AS day_type
+ 
+FROM amazon.amazon_2025;
+
+SELECT
+    CASE
+        WHEN quantity BETWEEN 1 AND 5 THEN 'Low Quantity'
+        WHEN quantity BETWEEN 6 AND 15 THEN 'Medium Quantity'
+        ELSE 'High Quantity'
+    END AS quantity_category,
+    CASE
+        WHEN total_sales < 100 THEN 'Low Sales'
+        WHEN total_sales BETWEEN 100 AND 500 THEN 'Medium Sales'
+        ELSE 'High Sales'
+    END AS sales_category,
+    SUM(quantity) AS total_quantity,
+    SUM(total_sales) AS total_sales
+FROM amazon.amazon_2025
+GROUP BY
+    quantity_category,
+    sales_category;
+
+
+  
